@@ -1,7 +1,8 @@
-package com.diamond.it.desihisaab
+package com.diamond.it.desihisaab.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.diamond.it.desihisaab.R
 import com.diamond.it.desihisaab.screen.Screen
 
 class SplashActivity : AppCompatActivity() {
