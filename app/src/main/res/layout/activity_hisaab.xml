@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="match_parent">
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clTop"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintRight_toRightOf="parent">
+
+        <View
+                android:id="@+id/viewLeft1"
+                android:layout_width="@dimen/box_width"
+                android:layout_height="@dimen/box_height"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                style="@style/BoxStyle"/>
+
+        <View
+                android:id="@+id/viewTop1"
+                style="@style/BoxStyle"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/box_width"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@id/viewLeft1"
+                app:layout_constraintLeft_toRightOf="@id/viewLeft1"
+                app:layout_constraintEnd_toStartOf="@id/viewRight1"
+                app:layout_constraintRight_toLeftOf="@id/viewRight1"/>
+        <TextView
+                android:id="@+id/tvQuantity"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/box_height"
+                app:layout_constraintTop_toBottomOf="@id/viewTop1"
+                app:layout_constraintStart_toEndOf="@id/viewLeft1"
+                app:layout_constraintLeft_toRightOf="@id/viewLeft1"
+                app:layout_constraintEnd_toStartOf="@id/viewRight1"
+                app:layout_constraintRight_toLeftOf="@id/viewRight1"/>
+        <View
+                android:id="@+id/viewRight1"
+                android:layout_width="@dimen/box_width"
+                android:layout_height="@dimen/box_height"
+                style="@style/BoxStyle"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@id/viewTop1"
+                app:layout_constraintLeft_toRightOf="@id/viewTop1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintRight_toRightOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

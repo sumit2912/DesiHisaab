@@ -8,4 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="BoxStyle">
+        <item name="android:background">@android:color/black</item>
+    </style>
 </resources>
