@@ -9,8 +9,8 @@ import android.widget.Toast
 
 abstract class BaseActivity : AppCompatActivity(), View.OnClickListener{
 
-    protected var handler : Handler ? = null
-    protected var  context : Context ? = null
+    protected lateinit var handler : Handler
+    protected lateinit var  context : Context
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

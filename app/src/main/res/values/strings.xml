@@ -3,4 +3,5 @@
     <string name="lbl_quantity">Quantity</string>
     <string name="lbl_price">Price</string>
     <string name="lbl_total">Total</string>
+    <string name="lbl_ftotal">F.Total</string>
 </resources>

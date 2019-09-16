@@ -209,4 +209,177 @@
                     app:layout_constraintBottom_toBottomOf="parent"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@+id/clTop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/tvAdmob"/>
+    <TextView
+            android:id="@+id/tvAdmob"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/rv"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/clBottom"
+            android:text="Admob"
+            android:textSize="20sp"
+            android:textColor="@android:color/black"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clBottom"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/tvAdmob"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintHorizontal_bias="0.0">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clFtotal"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/box_height"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/clFinalTotal"
+                app:layout_constraintRight_toLeftOf="@id/clFinalTotal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintHorizontal_weight="0.25">
+
+            <View
+                    android:id="@+id/viewLeft4"
+                    android:layout_width="@dimen/box_width"
+                    android:layout_height="@dimen/box_height"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/viewTop4"
+                    app:layout_constraintRight_toLeftOf="@id/viewTop4"
+                    app:layout_constraintBottom_toTopOf="@id/viewBottom4"
+                    style="@style/BoxStyle"/>
+
+            <View
+                    android:id="@+id/viewTop4"
+                    style="@style/BoxStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/box_width"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/viewLeft4"
+                    app:layout_constraintLeft_toRightOf="@id/viewLeft4"
+                    app:layout_constraintEnd_toStartOf="@id/viewRight4"
+                    app:layout_constraintRight_toLeftOf="@id/viewRight4"
+                    app:layout_constraintBottom_toTopOf="@id/tvFtotal"/>
+
+            <TextView
+                    android:id="@+id/tvFtotal"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintTop_toBottomOf="@id/viewTop4"
+                    app:layout_constraintStart_toEndOf="@id/viewLeft4"
+                    app:layout_constraintLeft_toRightOf="@id/viewLeft4"
+                    app:layout_constraintEnd_toStartOf="@id/viewRight4"
+                    app:layout_constraintRight_toLeftOf="@id/viewRight4"
+                    app:layout_constraintBottom_toTopOf="@id/viewBottom4"
+                    android:text="@string/lbl_ftotal"
+                    android:textSize="20sp"
+                    android:gravity="center"
+                    android:textColor="@color/colorPrimary"/>
+
+            <View
+                    android:id="@+id/viewRight4"
+                    android:layout_width="@dimen/box_width"
+                    android:layout_height="@dimen/box_height"
+                    style="@style/BoxStyle"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/viewTop4"
+                    app:layout_constraintLeft_toRightOf="@id/viewTop4"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"/>
+
+            <View
+                    android:id="@+id/viewBottom4"
+                    android:layout_width="0dp"
+                    style="@style/BoxStyle"
+                    android:layout_height="@dimen/box_width"
+                    app:layout_constraintTop_toBottomOf="@+id/viewLeft4"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clFinalTotal"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/box_height"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@id/clFtotal"
+                app:layout_constraintLeft_toRightOf="@id/clFtotal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintHorizontal_weight="0.375">
+
+            <View
+                    android:id="@+id/viewTop5"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/box_width"
+                    style="@style/BoxStyle"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/viewRight5"
+                    app:layout_constraintRight_toLeftOf="@id/viewRight5"/>
+            <View
+                    android:id="@+id/viewRight5"
+                    android:layout_width="@dimen/box_width"
+                    android:layout_height="@dimen/box_height"
+                    style="@style/BoxStyle"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/viewTop5"
+                    app:layout_constraintLeft_toRightOf="@id/viewTop5"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"/>
+
+            <TextView
+                    android:id="@+id/tvFinalTotal"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintTop_toBottomOf="@id/viewTop5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/viewRight5"
+                    app:layout_constraintRight_toLeftOf="@id/viewRight5"
+                    app:layout_constraintBottom_toTopOf="@id/viewBottom5"
+                    android:textSize="20sp"
+                    android:gravity="center"
+                    android:textColor="@color/colorPrimary"/>
+
+            <View
+                    android:id="@+id/viewBottom5"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/box_width"
+                    style="@style/BoxStyle"
+                    app:layout_constraintTop_toBottomOf="@id/viewRight5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

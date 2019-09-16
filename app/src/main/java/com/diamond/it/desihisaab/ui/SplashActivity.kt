@@ -12,10 +12,11 @@ class SplashActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        handler?.postDelayed(object:Runnable{
+        handler.postDelayed(object:Runnable{
             override fun run() {
                 intentHisaab = Intent(context,HisaabActivity::class.java)
                 startActivity(intentHisaab)
+                finish()
             }
         },2000)
         initUi()
