@@ -1,19 +1,21 @@
 package com.diamond.it.desihisaab.adapter
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.diamond.it.desihisaab.R
 import com.diamond.it.desihisaab.model.Calculation
+import com.diamond.it.desihisaab.uc.CustomTextWatcher
 import kotlinx.android.synthetic.main.raw_desi_hisaab_adapter_item.view.*
 
 class DesiHisaabAdapter(context: Context, list: ArrayList<Calculation>) :
     RecyclerView.Adapter<DesiHisaabAdapter.HisaabHolder>() {
+
     private var mContext: Context
     private var list: ArrayList<Calculation>
 
@@ -24,7 +26,7 @@ class DesiHisaabAdapter(context: Context, list: ArrayList<Calculation>) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HisaabHolder {
         var view = LayoutInflater.from(mContext).inflate(R.layout.raw_desi_hisaab_adapter_item, parent, false)
-        return HisaabHolder(view)
+        return HisaabHolder(view, list)
     }
 
     override fun getItemCount(): Int {
@@ -34,11 +36,48 @@ class DesiHisaabAdapter(context: Context, list: ArrayList<Calculation>) :
     override fun onBindViewHolder(holder: HisaabHolder, position: Int) {
     }
 
-    class HisaabHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val edQuantity:EditText = itemView.edQuantity
-        val edPrice:EditText = itemView.edPrice
-        val edTotal:TextView = itemView.edTotal
+    class HisaabHolder(itemView: View, list: ArrayList<Calculation>) : RecyclerView.ViewHolder(itemView) {
+        var edQuantity: EditText
+        var edPrice: EditText
+        var edTotal: TextView
+        var list: ArrayList<Calculation>
 
+        init {
+            edQuantity = itemView.edQuantity
+            edPrice = itemView.edPrice
+            edTotal = itemView.edTotal
+            this.list = list
+
+            edQuantity.addTextChangedListener(CustomTextWatcher(object : CustomTextWatcher.MyTextWatcher {
+                override fun onValueChanged(string: String) {
+                    var calculation :Calculation = list[adapterPosition]
+                    calculation.quantity = if (string.isEmpty()) 0.0 else string.toDouble()
+                    calculation.total = calculation.quantity * calculation.price
+                    edTotal.text = calculation.total.toString()
+                    calculateFinalTotal(edTotal)
+                }
+            }))
+
+            edPrice.addTextChangedListener(CustomTextWatcher(object : CustomTextWatcher.MyTextWatcher {
+                override fun onValueChanged(string: String) {
+                    var calculation :Calculation = list[adapterPosition]
+                    calculation.price = if (string.isEmpty()) 0.0 else string.toDouble()
+                    calculation.total = calculation.quantity * calculation.price
+                    edTotal.text = calculation.total.toString()
+                    calculateFinalTotal(edTotal)
+                }
+            }))
+        }
+
+        fun calculateFinalTotal(edTotal: TextView) {
+            var sum= 0.0
+            for ((index,value) in list.withIndex()){
+                Log.e("DesiHisaabAdapter","index = "+index+"  value = "+value)
+                sum = sum + value.total
+            }
+            Log.e("DesiHisaabAdapter","F.Total = "+sum)
+            edTotal.text = sum.toString()
+        }
     }
 }
 

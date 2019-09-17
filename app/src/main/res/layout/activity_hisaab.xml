@@ -255,7 +255,7 @@
                 app:layout_constraintEnd_toStartOf="@id/clFinalTotal"
                 app:layout_constraintRight_toLeftOf="@id/clFinalTotal"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintHorizontal_weight="0.25">
+                app:layout_constraintHorizontal_weight="0.15">
 
             <View
                     android:id="@+id/viewLeft4"

@@ -8,11 +8,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.diamond.it.desihisaab.R
 import com.diamond.it.desihisaab.adapter.DesiHisaabAdapter
 import com.diamond.it.desihisaab.model.Calculation
+import com.diamond.it.desihisaab.screen.Screen
 import kotlinx.android.synthetic.main.activity_hisaab.*
 
 
 class HisaabActivity : BaseActivity() {
 
+    private val TAG = Screen.HISAAB_ACTIVITY
     private lateinit var llManager: LinearLayoutManager
     private lateinit var desiHisaabAdapter: DesiHisaabAdapter
 

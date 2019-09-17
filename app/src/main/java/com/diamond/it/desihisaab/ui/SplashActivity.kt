@@ -5,9 +5,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import com.diamond.it.desihisaab.R
+import com.diamond.it.desihisaab.screen.Screen
 
 class SplashActivity : BaseActivity() {
 
+    private val TAG = Screen.SPLASH_ACTIVITY
     private lateinit var intentHisaab:Intent
 
     override fun onCreate(savedInstanceState: Bundle?) {
