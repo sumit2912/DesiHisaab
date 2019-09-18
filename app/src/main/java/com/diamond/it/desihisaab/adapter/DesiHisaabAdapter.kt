@@ -74,8 +74,7 @@ class DesiHisaabAdapter(
                     calculateFinalTotal(finalTotal)
                 }
             }))
-            var calculation: Calculation = list[adapterPosition]
-            edQuantity.setText(calculation.quantity)
+
         }
 
         fun calculateFinalTotal(finalTotal: FinalTotal) {

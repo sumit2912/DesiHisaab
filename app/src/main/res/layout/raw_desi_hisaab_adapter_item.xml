@@ -60,7 +60,7 @@
                     app:layout_constraintEnd_toStartOf="@id/viewRight1"
                     app:layout_constraintRight_toLeftOf="@id/viewRight1"
                     app:layout_constraintBottom_toTopOf="@id/viewBottom1"
-                    android:background="@android:color/transparent"
+                    android:background="#BEBEBE"
                     android:inputType="numberDecimal"
                     android:textSize="20sp"
                     android:gravity="center"
@@ -133,7 +133,7 @@
                     app:layout_constraintRight_toLeftOf="@id/viewRight2"
                     app:layout_constraintBottom_toTopOf="@id/viewBottom2"
                     android:inputType="numberDecimal"
-                    android:background="@android:color/transparent"
+                    android:background="#BEBEBE"
                     android:textSize="20sp"
                     android:gravity="center"
                     android:textColor="@color/colorPrimary"/>
@@ -194,6 +194,7 @@
                     app:layout_constraintBottom_toTopOf="@id/viewBottom3"
                     android:textSize="20sp"
                     android:gravity="center"
+                    android:background="#00DD99"
                     android:textColor="@color/colorPrimary"/>
 
             <View
