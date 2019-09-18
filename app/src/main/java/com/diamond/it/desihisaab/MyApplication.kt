@@ -1,9 +1,9 @@
 package com.diamond.it.desihisaab
 
-import android.app.Application
+import androidx.multidex.MultiDexApplication
 import com.diamond.it.desihisaab.common.AppManager
 
-class MyApplication : Application() {
+class MyApplication : MultiDexApplication() {
 
     private var appManager: AppManager? = null
 

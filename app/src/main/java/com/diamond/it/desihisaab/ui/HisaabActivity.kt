@@ -13,6 +13,8 @@ import com.diamond.it.desihisaab.adapter.DesiHisaabAdapter
 import com.diamond.it.desihisaab.common.FinalTotal
 import com.diamond.it.desihisaab.model.Calculation
 import com.diamond.it.desihisaab.screen.Screen
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdSize
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_hisaab.*
 
@@ -41,6 +43,11 @@ class HisaabActivity : BaseActivity(), FinalTotal, NavigationView.OnNavigationIt
         desiHisaabAdapter = DesiHisaabAdapter(context, getDefaultList(), finalTotal)
         rv.layoutManager = llManager
         rv.adapter = desiHisaabAdapter
+        adView.adUnitId = getString(R.string.add_unit_id)
+        adView.adSize = AdSize.BANNER
+        val adRequestBuilder = AdRequest.Builder()
+        val adRequest = adRequestBuilder.build()
+        adView.loadAd(adRequest)
     }
 
     override fun getActivityContext(): Context {
@@ -78,7 +85,7 @@ class HisaabActivity : BaseActivity(), FinalTotal, NavigationView.OnNavigationIt
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (actionbardrawer.onOptionsItemSelected(item)) {
             return true
         }

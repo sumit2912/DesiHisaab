@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import com.diamond.it.desihisaab.R
 import com.diamond.it.desihisaab.screen.Screen
+import com.google.android.gms.ads.MobileAds
 
 class SplashActivity : BaseActivity() {
 
@@ -14,6 +15,7 @@ class SplashActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        MobileAds.initialize(this,getString(R.string.admob_app_id))
         handler.postDelayed(object:Runnable{
             override fun run() {
                 intentHisaab = Intent(context,HisaabActivity::class.java)
