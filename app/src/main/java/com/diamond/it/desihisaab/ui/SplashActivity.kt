@@ -15,7 +15,7 @@ class SplashActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        MobileAds.initialize(this,getString(R.string.admob_app_id))
+      //  MobileAds.initialize(this,getString(R.string.admob_app_id))
         handler.postDelayed(object:Runnable{
             override fun run() {
                 intentHisaab = Intent(context,HisaabActivity::class.java)

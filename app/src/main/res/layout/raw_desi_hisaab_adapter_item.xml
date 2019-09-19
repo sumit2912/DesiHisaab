@@ -64,7 +64,7 @@
                     android:inputType="numberDecimal"
                     android:textSize="20sp"
                     android:gravity="center"
-                    android:textColor="@color/colorPrimary"/>
+                    android:textColor="#111111"/>
 
             <View
                     android:id="@+id/viewRight1"
@@ -136,7 +136,7 @@
                     android:background="#BEBEBE"
                     android:textSize="20sp"
                     android:gravity="center"
-                    android:textColor="@color/colorPrimary"/>
+                    android:textColor="#111111"/>
 
             <View
                     android:id="@+id/viewBottom2"
@@ -195,7 +195,7 @@
                     android:textSize="20sp"
                     android:gravity="center"
                     android:background="#00DD99"
-                    android:textColor="@color/colorPrimary"/>
+                    android:textColor="#111111"/>
 
             <View
                     android:id="@+id/viewBottom3"

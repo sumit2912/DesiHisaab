@@ -43,11 +43,11 @@ class HisaabActivity : BaseActivity(), FinalTotal, NavigationView.OnNavigationIt
         desiHisaabAdapter = DesiHisaabAdapter(context, getDefaultList(), finalTotal)
         rv.layoutManager = llManager
         rv.adapter = desiHisaabAdapter
-        adView.adUnitId = getString(R.string.add_unit_id)
+       /* adView.adUnitId = getString(R.string.add_unit_id)
         adView.adSize = AdSize.BANNER
         val adRequestBuilder = AdRequest.Builder()
         val adRequest = adRequestBuilder.build()
-        adView.loadAd(adRequest)
+        adView.loadAd(adRequest)*/
     }
 
     override fun getActivityContext(): Context {
