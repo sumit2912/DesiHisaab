@@ -92,5 +92,11 @@ class DesiHisaabAdapter(
         return position
     }
 
+    fun getList():ArrayList<Calculation>
+    {
+        return this.list
+    }
+
+
 }
 

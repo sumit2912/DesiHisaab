@@ -2,9 +2,7 @@ package com.diamond.it.desihisaab.ui
 
 import android.content.Context
 import android.os.Bundle
-import android.view.Gravity
-import android.view.MenuItem
-import android.view.View
+import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -89,7 +87,20 @@ class HisaabActivity : BaseActivity(), FinalTotal, NavigationView.OnNavigationIt
         if (actionbardrawer.onOptionsItemSelected(item)) {
             return true
         }
+        if (item.itemId == R.id.plus)
+        {
+            var c = Calculation()
+            desiHisaabAdapter.getList().add(c)
+            desiHisaabAdapter.notifyDataSetChanged()
+            rv.scrollToPosition(desiHisaabAdapter.getList().size-1)
+            return true
+        }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu,menu)
+        return true
     }
 }
 
