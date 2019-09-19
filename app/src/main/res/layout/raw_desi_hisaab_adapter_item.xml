@@ -60,11 +60,11 @@
                     app:layout_constraintEnd_toStartOf="@id/viewRight1"
                     app:layout_constraintRight_toLeftOf="@id/viewRight1"
                     app:layout_constraintBottom_toTopOf="@id/viewBottom1"
-                    android:background="#BEBEBE"
+                    android:background="@color/tvQuaPriceColor"
                     android:inputType="numberDecimal"
                     android:textSize="20sp"
                     android:gravity="center"
-                    android:textColor="#111111"/>
+                    android:textColor="@color/black"/>
 
             <View
                     android:id="@+id/viewRight1"
@@ -133,10 +133,10 @@
                     app:layout_constraintRight_toLeftOf="@id/viewRight2"
                     app:layout_constraintBottom_toTopOf="@id/viewBottom2"
                     android:inputType="numberDecimal"
-                    android:background="#BEBEBE"
+                    android:background="@color/tvQuaPriceColor"
                     android:textSize="20sp"
                     android:gravity="center"
-                    android:textColor="#111111"/>
+                    android:textColor="@color/black"/>
 
             <View
                     android:id="@+id/viewBottom2"
@@ -194,8 +194,8 @@
                     app:layout_constraintBottom_toTopOf="@id/viewBottom3"
                     android:textSize="20sp"
                     android:gravity="center"
-                    android:background="#00DD99"
-                    android:textColor="#111111"/>
+                    android:background="@color/tvTotalColor"
+                    android:textColor="@color/black"/>
 
             <View
                     android:id="@+id/viewBottom3"

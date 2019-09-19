@@ -2,6 +2,9 @@ package com.diamond.it.desihisaab.ui
 
 import android.content.Context
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.RelativeSizeSpan
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -32,7 +35,7 @@ class HisaabActivity : BaseActivity(), FinalTotal, NavigationView.OnNavigationIt
 
     override fun initUi() {
         actionbardrawer = ActionBarDrawerToggle(this, drawerlayout, R.string.Open, R.string.Close)
-        drawerlayout.addDrawerListener(actionbardrawer);
+        drawerlayout.addDrawerListener(actionbardrawer)
         actionbardrawer.syncState()
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         nv.setNavigationItemSelectedListener(this)
@@ -73,9 +76,11 @@ class HisaabActivity : BaseActivity(), FinalTotal, NavigationView.OnNavigationIt
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        var id = item.itemId
-        when (id) {
-            R.id.setting -> drawerlayout.closeDrawer(Gravity.LEFT,true)
+        when (item.itemId) {
+            R.id.setting -> {
+                drawerlayout.closeDrawer(Gravity.LEFT,true)
+            }
+            
             else -> {
                 return true
             }

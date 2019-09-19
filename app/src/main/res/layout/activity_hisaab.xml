@@ -3,11 +3,9 @@
 <androidx.drawerlayout.widget.DrawerLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:ads="http://schemas.android.com/tools"
         android:id="@+id/drawerlayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -96,7 +94,6 @@
                     app:layout_constraintRight_toLeftOf="@id/clTotal"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintHorizontal_weight="0.375">
-
 
                 <View
                         android:id="@+id/viewRight2"
@@ -371,7 +368,10 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             app:menu="@menu/navigation_menu"
-            android:layout_gravity="start">
+            android:layout_gravity="start"
+            app:itemTextAppearance="@style/TextAppearanceItem"
+            android:background="@color/colorPrimary"
+            app:itemTextColor="@android:color/white">
 
     </com.google.android.material.navigation.NavigationView>
 
