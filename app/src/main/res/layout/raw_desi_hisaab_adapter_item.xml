@@ -64,7 +64,7 @@
                     android:inputType="numberDecimal"
                     android:textSize="20sp"
                     android:gravity="center"
-                    android:textColor="@color/black"/>
+                    android:textColor="@color/white"/>
 
             <View
                     android:id="@+id/viewRight1"
@@ -136,7 +136,7 @@
                     android:background="@color/tvQuaPriceColor"
                     android:textSize="20sp"
                     android:gravity="center"
-                    android:textColor="@color/black"/>
+                    android:textColor="@color/white"/>
 
             <View
                     android:id="@+id/viewBottom2"
@@ -195,7 +195,7 @@
                     android:textSize="20sp"
                     android:gravity="center"
                     android:background="@color/tvTotalColor"
-                    android:textColor="@color/black"/>
+                    android:textColor="@color/white"/>
 
             <View
                     android:id="@+id/viewBottom3"

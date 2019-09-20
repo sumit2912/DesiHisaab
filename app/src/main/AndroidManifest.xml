@@ -19,8 +19,7 @@
 
         <activity android:name=".ui.SettingsActivity"
                   android:configChanges="orientation|screenLayout|screenSize|smallestScreenSize"
-                  android:screenOrientation="portrait"
-                  android:theme="@style/SplashTheme"/>
+                  android:screenOrientation="portrait"/>
 
         <activity
                 android:name=".ui.HisaabActivity"

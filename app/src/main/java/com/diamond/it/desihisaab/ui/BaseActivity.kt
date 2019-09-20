@@ -1,21 +1,25 @@
 package com.diamond.it.desihisaab.ui
 
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.diamond.it.desihisaab.common.AppManager
+import com.diamond.it.desihisaab.model.data_model.Data
+import com.diamond.it.desihisaab.pref.PrefManager
 import com.diamond.it.desihisaab.screen.ScreenHelper
+import com.diamond.it.desihisaab.utils.Utils
 
-abstract class BaseActivity : AppCompatActivity(), View.OnClickListener, ScreenHelper.MessageReceiver{
+abstract class BaseActivity : AppCompatActivity(), View.OnClickListener, ScreenHelper.MessageReceiver {
 
-    protected lateinit var handler : Handler
-    protected lateinit var  context : Context
+    private val TAG = "BaseActivity"
+    protected lateinit var handler: Handler
+    protected lateinit var context: Context
     protected var disableClick = false
     protected lateinit var appManager: AppManager
     protected lateinit var screenHelper: ScreenHelper
+    protected lateinit var prefManager: PrefManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,11 +28,17 @@ abstract class BaseActivity : AppCompatActivity(), View.OnClickListener, ScreenH
         context = getActivityContext()
         appManager = AppManager.getInstance(context)
         screenHelper = appManager.getScreenHelper()
+        screenHelper.getDataMessageListenerList()[context.javaClass.simpleName] = addMessageReceiver()
+        prefManager = appManager.getPrefManager()
     }
 
-    protected abstract fun getLayoutId():Int
-    protected abstract fun getActivityContext():Context
+    protected abstract fun getLayoutId(): Int
+    protected abstract fun getActivityContext(): Context
     protected abstract fun initUi()
+    protected abstract fun addMessageReceiver(): ScreenHelper.MessageReceiver
 
-
+    override fun onMessageReceived(from: String, msg: String, data: Data?) {
+        val isData = if (data == null) "No" else "YES"
+        Utils.print(TAG, "from = $from  Message = $msg Data = $isData")
+    }
 }

@@ -11,6 +11,8 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import com.diamond.it.desihisaab.R
 import com.diamond.it.desihisaab.model.data_model.Data
 import com.diamond.it.desihisaab.screen.Screen
+import com.diamond.it.desihisaab.screen.ScreenHelper
+import com.diamond.it.desihisaab.utils.Utils
 import kotlinx.android.synthetic.main.activity_splash.*
 
 class SplashActivity : BaseActivity() {
@@ -49,10 +51,14 @@ class SplashActivity : BaseActivity() {
         return R.layout.activity_splash
     }
 
+    override fun addMessageReceiver(): ScreenHelper.MessageReceiver {
+        return this@SplashActivity
+    }
+
     override fun onClick(view: View?) {
     }
 
-    override fun onMessageReceived(from: String, to: String, msg: String, data: Data) {
+    override fun onMessageReceived(from: String, msg: String, data: Data?) {
 
     }
 

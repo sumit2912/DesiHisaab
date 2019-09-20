@@ -9,4 +9,6 @@
     <string name="Close">close</string>
     <string name="admob_app_id" translatable="false">ca-app-pub-8523051008938105~4918537618</string>
     <string name="add_unit_id">ca-app-pub-8523051008938105/8263913929</string>
+    <string name="enter_your_title">Enter your title</string>
+    <string name="save">Save</string>
 </resources>

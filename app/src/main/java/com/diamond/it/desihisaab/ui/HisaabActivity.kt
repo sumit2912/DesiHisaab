@@ -3,10 +3,12 @@ package com.diamond.it.desihisaab.ui
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.diamond.it.desihisaab.R
@@ -14,7 +16,10 @@ import com.diamond.it.desihisaab.adapter.DesiHisaabAdapter
 import com.diamond.it.desihisaab.common.FinalTotal
 import com.diamond.it.desihisaab.model.data_model.Calculation
 import com.diamond.it.desihisaab.model.data_model.Data
+import com.diamond.it.desihisaab.pref.PrefConst
 import com.diamond.it.desihisaab.screen.Screen
+import com.diamond.it.desihisaab.screen.ScreenHelper
+import com.diamond.it.desihisaab.utils.Utils
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_hisaab.*
 
@@ -53,10 +58,16 @@ class HisaabActivity : BaseActivity(), FinalTotal, NavigationView.OnNavigationIt
 
     override fun onResume() {
         super.onResume()
+        val titleOfApp = prefManager.getString(PrefConst.PREF_HISAAB_TITLE)
+        supportActionBar?.title = if(TextUtils.isEmpty(titleOfApp)) getString(R.string.app_name) else titleOfApp
         disableClick = false
     }
 
     override fun getActivityContext(): Context {
+        return this@HisaabActivity
+    }
+
+    override fun addMessageReceiver(): ScreenHelper.MessageReceiver {
         return this@HisaabActivity
     }
 
@@ -119,8 +130,8 @@ class HisaabActivity : BaseActivity(), FinalTotal, NavigationView.OnNavigationIt
         return true
     }
 
-    override fun onMessageReceived(from: String, to: String, msg: String, data: Data) {
-
+    override fun onMessageReceived(from: String, msg: String, data: Data?) {
+        super.onMessageReceived(from, msg, data)
     }
 }
 

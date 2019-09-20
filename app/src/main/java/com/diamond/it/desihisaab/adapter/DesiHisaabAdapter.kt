@@ -61,7 +61,9 @@ class DesiHisaabAdapter(
                     try {
                         calculation.quantity = if (string.isEmpty()) 0.0 else string.toDouble()
                     }catch (e:Exception){calculation.quantity = 0.0}
-                    calculation.total = calculation.quantity * calculation.price
+                    val temp = calculation.quantity * calculation.price
+                    val f = String.format("%.2f",temp)
+                    calculation.total = f.toDouble()
                     edTotal.text = calculation.total.toString()
                     calculateFinalTotal(finalTotal)
                 }
@@ -73,7 +75,9 @@ class DesiHisaabAdapter(
                     try {
                         calculation.price = if (string.isEmpty()) 0.0 else string.toDouble()
                     }catch (e:Exception){calculation.price = 0.0}
-                    calculation.total = calculation.quantity * calculation.price
+                    val temp = calculation.quantity * calculation.price
+                    val f = String.format("%.2f",temp)
+                    calculation.total = f.toDouble()
                     edTotal.text = calculation.total.toString()
                     calculateFinalTotal(finalTotal)
                 }
@@ -86,7 +90,8 @@ class DesiHisaabAdapter(
             for (value in list) {
                 sum = sum + value.total
             }
-            finalTotal.onFinalTotalChanged(sum.toString())
+            val f = String.format("%.2f",sum)
+            finalTotal.onFinalTotalChanged(f)
         }
     }
 
