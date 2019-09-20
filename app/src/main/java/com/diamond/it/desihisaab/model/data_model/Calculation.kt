@@ -1,4 +1,4 @@
-package com.diamond.it.desihisaab.model
+package com.diamond.it.desihisaab.model.data_model
 
 class Calculation {
     var quantity:Double = 0.0

@@ -1,21 +1,20 @@
 package com.diamond.it.desihisaab.ui
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
-import android.text.Spannable
-import android.text.SpannableString
-import android.text.style.RelativeSizeSpan
-import android.view.*
-import android.widget.Toast
+import android.view.Gravity
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.diamond.it.desihisaab.R
 import com.diamond.it.desihisaab.adapter.DesiHisaabAdapter
 import com.diamond.it.desihisaab.common.FinalTotal
-import com.diamond.it.desihisaab.model.Calculation
+import com.diamond.it.desihisaab.model.data_model.Calculation
+import com.diamond.it.desihisaab.model.data_model.Data
 import com.diamond.it.desihisaab.screen.Screen
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdSize
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_hisaab.*
 
@@ -27,6 +26,7 @@ class HisaabActivity : BaseActivity(), FinalTotal, NavigationView.OnNavigationIt
     private lateinit var desiHisaabAdapter: DesiHisaabAdapter
     private lateinit var finalTotal: FinalTotal
     private lateinit var actionbardrawer: ActionBarDrawerToggle
+    private var intentSettings: Intent? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,11 +44,16 @@ class HisaabActivity : BaseActivity(), FinalTotal, NavigationView.OnNavigationIt
         desiHisaabAdapter = DesiHisaabAdapter(context, getDefaultList(), finalTotal)
         rv.layoutManager = llManager
         rv.adapter = desiHisaabAdapter
-       /* adView.adUnitId = getString(R.string.add_unit_id)
-        adView.adSize = AdSize.BANNER
-        val adRequestBuilder = AdRequest.Builder()
-        val adRequest = adRequestBuilder.build()
-        adView.loadAd(adRequest)*/
+        /* adView.adUnitId = getString(R.string.add_unit_id)
+         adView.adSize = AdSize.BANNER
+         val adRequestBuilder = AdRequest.Builder()
+         val adRequest = adRequestBuilder.build()
+         adView.loadAd(adRequest)*/
+    }
+
+    override fun onResume() {
+        super.onResume()
+        disableClick = false
     }
 
     override fun getActivityContext(): Context {
@@ -78,9 +83,16 @@ class HisaabActivity : BaseActivity(), FinalTotal, NavigationView.OnNavigationIt
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.setting -> {
-                drawerlayout.closeDrawer(Gravity.LEFT,true)
+                drawerlayout.closeDrawer(Gravity.LEFT, true)
+                if (intentSettings == null) {
+                    intentSettings = Intent(context, SettingsActivity::class.java)
+                }
+                if (!disableClick && intentSettings != null) {
+                    disableClick = true
+                    startActivity(intentSettings)
+                }
             }
-            
+
             else -> {
                 return true
             }
@@ -92,20 +104,23 @@ class HisaabActivity : BaseActivity(), FinalTotal, NavigationView.OnNavigationIt
         if (actionbardrawer.onOptionsItemSelected(item)) {
             return true
         }
-        if (item.itemId == R.id.plus)
-        {
+        if (item.itemId == R.id.plus) {
             var c = Calculation()
             desiHisaabAdapter.getList().add(c)
             desiHisaabAdapter.notifyDataSetChanged()
-            rv.scrollToPosition(desiHisaabAdapter.getList().size-1)
+            rv.scrollToPosition(desiHisaabAdapter.getList().size - 1)
             return true
         }
         return super.onOptionsItemSelected(item)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu,menu)
+        menuInflater.inflate(R.menu.menu, menu)
         return true
+    }
+
+    override fun onMessageReceived(from: String, to: String, msg: String, data: Data) {
+
     }
 }
 

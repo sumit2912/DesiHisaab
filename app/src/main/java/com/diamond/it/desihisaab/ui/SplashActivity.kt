@@ -9,6 +9,7 @@ import android.view.Window
 import android.view.WindowManager
 import android.view.animation.AccelerateDecelerateInterpolator
 import com.diamond.it.desihisaab.R
+import com.diamond.it.desihisaab.model.data_model.Data
 import com.diamond.it.desihisaab.screen.Screen
 import kotlinx.android.synthetic.main.activity_splash.*
 
@@ -49,6 +50,10 @@ class SplashActivity : BaseActivity() {
     }
 
     override fun onClick(view: View?) {
+    }
+
+    override fun onMessageReceived(from: String, to: String, msg: String, data: Data) {
+
     }
 
 }

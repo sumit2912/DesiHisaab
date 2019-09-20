@@ -16,22 +16,32 @@
             android:roundIcon="@drawable/ic_diamond"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".ui.HisaabActivity"
+
+        <activity android:name=".ui.SettingsActivity"
                   android:configChanges="orientation|screenLayout|screenSize|smallestScreenSize"
-                  android:screenOrientation="portrait"/>
+                  android:screenOrientation="portrait"
+                  android:theme="@style/SplashTheme"/>
+
+        <activity
+                android:name=".ui.HisaabActivity"
+                android:configChanges="orientation|screenLayout|screenSize|smallestScreenSize"
+                android:screenOrientation="portrait"/>
+
         <activity
                 android:name=".ui.SplashActivity"
                 android:configChanges="orientation|screenLayout|screenSize|smallestScreenSize"
                 android:screenOrientation="portrait"
-        android:theme="@style/SplashTheme">
+                android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <meta-data android:name="com.google.android.gms.ads.APPLICATION_ID"
-        android:value="@string/admob_app_id"/>
+
+        <meta-data
+                android:name="com.google.android.gms.ads.APPLICATION_ID"
+                android:value="@string/admob_app_id"/>
     </application>
 
 </manifest>
