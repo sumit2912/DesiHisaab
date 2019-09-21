@@ -22,8 +22,7 @@ class SplashActivity : BaseActivity() {
     private lateinit var objectAnimator: ObjectAnimator
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        requestWindowFeature(Window.FEATURE_NO_TITLE)
-        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        Utils.makeFullScreenActivity(this@SplashActivity)
         super.onCreate(savedInstanceState)
         objectAnimator = ObjectAnimator.ofFloat(iv, "rotationY", 0.0f, 360f)
         objectAnimator.duration = 2000
@@ -59,7 +58,7 @@ class SplashActivity : BaseActivity() {
     }
 
     override fun onMessageReceived(from: String, msg: String, data: Data?) {
-
+        super.onMessageReceived(from, msg, data)
     }
 
 }

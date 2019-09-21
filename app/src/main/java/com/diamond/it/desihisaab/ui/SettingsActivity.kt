@@ -61,6 +61,7 @@ class SettingsActivity : BaseActivity() {
     }
 
     override fun onMessageReceived(from: String, msg: String, data: Data?) {
+        super.onMessageReceived(from, msg, data)
 
     }
 

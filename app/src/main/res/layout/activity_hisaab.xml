@@ -370,8 +370,8 @@
             app:menu="@menu/navigation_menu"
             android:layout_gravity="start"
             app:itemTextAppearance="@style/TextAppearanceItem"
-            android:background="@color/colorPrimary"
-            app:itemTextColor="@android:color/white">
+            android:background="@color/white"
+            app:itemTextColor="@android:color/black">
 
     </com.google.android.material.navigation.NavigationView>
 

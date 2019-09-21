@@ -2,6 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:id="@+id/setting"
-          android:title="@string/settings"/>
+          android:title="@string/settings"
+          android:icon="@drawable/ic_settings"/>
+
+    <item android:id="@+id/contactUs"
+          android:title="@string/contact_us"
+          android:icon="@drawable/ic_contact_us"/>
+
+    <item android:id="@+id/locateUs"
+          android:title="@string/locate_us"
+          android:icon="@drawable/ic_locate_us"/>
 
 </menu>

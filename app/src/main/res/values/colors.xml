@@ -6,5 +6,5 @@
     <color name="white">#FFFFFF</color>
     <color name="tvTotalColor">#00DD99</color>
     <color name="tvQuaPriceColor">#BEBEBE</color>
-    <color name="black">#111111</color>
+    <color name="black">#000000</color>
 </resources>
