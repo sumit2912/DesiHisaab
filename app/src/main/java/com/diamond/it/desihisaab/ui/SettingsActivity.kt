@@ -73,7 +73,6 @@ class SettingsActivity : BaseActivity() {
     }
 
     override fun onBackPressed() {
-        screenHelper.sendMessage(Screen.SETTINGS_ACTIVITY, Screen.HISAAB_ACTIVITY, "Close Drawer", null)
         finish()
     }
 }

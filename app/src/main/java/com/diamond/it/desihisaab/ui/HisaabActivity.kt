@@ -129,9 +129,9 @@ class HisaabActivity : BaseActivity(), FinalTotal, NavigationView.OnNavigationIt
 
             R.id.locateUs -> {
                 Utils.hideKeyBoardFromView(context)
-                drawerlayout.closeDrawer(GravityCompat.START, true)
-                val uri = String.format(Locale.ENGLISH,"geo:%f,%f",21.640639,69.609194)
-                val locationIntent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
+                drawerlayout.closeDrawer(GravityCompat.START, false)
+                //val uri = String.format(Locale.ENGLISH,"geo:%f,%f",21.640639,69.609194)
+                val locationIntent = Intent(context,LocateUsActivity::class.java)
                 startActivity(locationIntent)
             }
 
