@@ -12,6 +12,7 @@ import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.app.ActivityCompat
 import androidx.core.view.GravityCompat
@@ -174,16 +175,15 @@ class HisaabActivity : BaseActivity(), FinalTotal, NavigationView.OnNavigationIt
     }
 
     fun checkCallPermission(): Boolean {
-        return ActivityCompat.checkSelfPermission(
-            context,
-            Manifest.permission.CALL_PHONE
-        ) == PackageManager.PERMISSION_GRANTED
+        return ActivityCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == REQ_CALL && grantResults.size > 0) {
+        if (requestCode == REQ_CALL && grantResults.size > 0 && checkCallPermission()) {
             contactUs()
+        }else {
+            Toast.makeText(context,"Grant call permission to call us.",Toast.LENGTH_LONG).show()
         }
     }
 

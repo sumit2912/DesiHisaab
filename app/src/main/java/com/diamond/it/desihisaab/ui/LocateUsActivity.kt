@@ -1,18 +1,25 @@
 package com.diamond.it.desihisaab.ui
 
+import android.Manifest
 import android.content.Context
+import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationManager
+import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import com.diamond.it.desihisaab.R
 import com.diamond.it.desihisaab.screen.ScreenHelper
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.activity_locat_us.*
 
 class LocateUsActivity : BaseActivity(), OnMapReadyCallback {
@@ -20,6 +27,7 @@ class LocateUsActivity : BaseActivity(), OnMapReadyCallback {
     private lateinit var locationManager: LocationManager
     private lateinit var supportMapFragment: SupportMapFragment
     private lateinit var googleMap: GoogleMap
+    private val REQ_LOCATION = 102
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +53,16 @@ class LocateUsActivity : BaseActivity(), OnMapReadyCallback {
 
     override fun onMapReady(map: GoogleMap) {
         googleMap = map
+        googleMap.uiSettings.isMapToolbarEnabled = false
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (checkCoarseLocationPermission() && checkFineLocationPermission()) {
+                locateMe()
+            } else {
+                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CALL_PHONE), REQ_LOCATION)
+            }
+        } else {
+            locateMe()
+        }
     }
 
     override fun addMessageReceiver(): ScreenHelper.MessageReceiver {
@@ -54,17 +72,57 @@ class LocateUsActivity : BaseActivity(), OnMapReadyCallback {
     override fun onClick(view: View) {
         when (view.id) {
             R.id.ivFindMe -> {
-                var location: Location? = null
-                try {
-                    location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
-                }catch (e:SecurityException){}
-                if(location != null){
-                    val latlng = LatLng(location.latitude,location.longitude)
-                    val cameraUpdate = CameraUpdateFactory.newLatLngZoom(latlng,18f)
-                    googleMap.moveCamera(cameraUpdate)
+                if (Build.VERSION.SDK_INT >= 23) {
+                    if (checkCoarseLocationPermission() && checkFineLocationPermission()) {
+                        locateMe()
+                    } else {
+                        ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CALL_PHONE), REQ_LOCATION)
+                    }
+                } else {
+                    locateMe()
                 }
             }
         }
+    }
+
+    private fun locateMe() {
+        var networkLocation: Location? = null
+        var gpsLocation: Location? = null
+
+        try {
+            networkLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+        } catch (e: SecurityException) {
+        }
+
+        try {
+            gpsLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+        } catch (e: SecurityException) {
+        }
+
+        var latlng : LatLng? = null
+
+        if(gpsLocation != null){
+            latlng = LatLng(gpsLocation.latitude, gpsLocation.longitude)
+        }
+
+        if (networkLocation != null) {
+            latlng = LatLng(networkLocation.latitude, networkLocation.longitude)
+        }
+
+        val cameraUpdate = CameraUpdateFactory.newLatLngZoom(latlng, 18f)
+        googleMap.moveCamera(cameraUpdate)
+
+        latlng?.let { drawCurrentLocation(it) }
+    }
+
+    private fun drawCurrentLocation(latlng: LatLng) {
+        googleMap.clear()
+        val markerOptions = MarkerOptions()
+        markerOptions.position(latlng)
+        markerOptions.title("Your Location")
+        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
+        googleMap.addMarker(markerOptions)
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -76,5 +134,29 @@ class LocateUsActivity : BaseActivity(), OnMapReadyCallback {
 
     override fun onBackPressed() {
         finish()
+    }
+
+    private fun checkFineLocationPermission(): Boolean {
+        return ActivityCompat.checkSelfPermission(
+            context,
+            Manifest.permission.ACCESS_FINE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED
+    }
+
+    private fun checkCoarseLocationPermission(): Boolean {
+        return ActivityCompat.checkSelfPermission(
+            context,
+            Manifest.permission.ACCESS_COARSE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if (requestCode == REQ_LOCATION && grantResults.size > 0) {
+            locateMe()
+        } else {
+            Toast.makeText(context, "Grant location permission to locate us.", Toast.LENGTH_LONG).show()
+        }
     }
 }
