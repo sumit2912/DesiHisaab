@@ -3,6 +3,7 @@ package com.diamond.it.desihisaab.ui
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -14,6 +15,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.view.GravityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,8 +30,6 @@ import com.diamond.it.desihisaab.screen.ScreenHelper
 import com.diamond.it.desihisaab.utils.Utils
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_hisaab.*
-import java.util.*
-import kotlin.collections.ArrayList
 
 
 class HisaabActivity : BaseActivity(), FinalTotal, NavigationView.OnNavigationItemSelectedListener {
@@ -58,6 +58,7 @@ class HisaabActivity : BaseActivity(), FinalTotal, NavigationView.OnNavigationIt
         desiHisaabAdapter = DesiHisaabAdapter(context, getDefaultList(), finalTotal)
         rv.layoutManager = llManager
         rv.adapter = desiHisaabAdapter
+        System.out.println(prefManager.getString(PrefConst.PREF_HISAAB))
         /* adView.adUnitId = getString(R.string.add_unit_id)
          adView.adSize = AdSize.BANNER
          val adRequestBuilder = AdRequest.Builder()
@@ -132,7 +133,7 @@ class HisaabActivity : BaseActivity(), FinalTotal, NavigationView.OnNavigationIt
                 Utils.hideKeyBoardFromView(context)
                 drawerlayout.closeDrawer(GravityCompat.START, false)
                 //val uri = String.format(Locale.ENGLISH,"geo:%f,%f",21.640639,69.609194)
-                val locationIntent = Intent(context,LocateUsActivity::class.java)
+                val locationIntent = Intent(context, LocateUsActivity::class.java)
                 startActivity(locationIntent)
             }
 
@@ -175,15 +176,18 @@ class HisaabActivity : BaseActivity(), FinalTotal, NavigationView.OnNavigationIt
     }
 
     fun checkCallPermission(): Boolean {
-        return ActivityCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED
+        return ActivityCompat.checkSelfPermission(
+            context,
+            Manifest.permission.CALL_PHONE
+        ) == PackageManager.PERMISSION_GRANTED
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == REQ_CALL && grantResults.size > 0 && checkCallPermission()) {
             contactUs()
-        }else {
-            Toast.makeText(context,"Grant call permission to call us.",Toast.LENGTH_LONG).show()
+        } else {
+            Toast.makeText(context, "Grant call permission to call us.", Toast.LENGTH_LONG).show()
         }
     }
 
@@ -191,7 +195,43 @@ class HisaabActivity : BaseActivity(), FinalTotal, NavigationView.OnNavigationIt
         if (drawerlayout.isDrawerOpen(GravityCompat.START)) {
             drawerlayout.closeDrawer(GravityCompat.START)
         } else {
-            super.onBackPressed()
+            saveLaterAlert()
+        }
+    }
+
+    private fun saveLaterAlert() {
+        val alertDialogBuilder = AlertDialog.Builder(context)
+        alertDialogBuilder.setTitle("Exit Alert")
+        alertDialogBuilder.setMessage("Save for later calculation and exit?")
+        alertDialogBuilder.setPositiveButton("Save and Exit") { dialogInterface: DialogInterface, i: Int ->
+            saveLater()
+            dialogInterface.dismiss()
+            finish()
+        }
+
+        alertDialogBuilder.setNegativeButton("Exit") { dialogInterface: DialogInterface, i: Int ->
+            dialogInterface.dismiss()
+            finish()
+        }
+
+        val alertDialog = alertDialogBuilder.create()
+        alertDialog.show()
+    }
+
+    private fun saveLater(){
+        val list = desiHisaabAdapter.getList()
+        prefManager.removeValue(PrefConst.PREF_HISAAB)
+        var store : String? = null
+        for ((index,cal) in list.withIndex()){
+            if(index == list.size - 1){
+                store = store + "quantity[$index]="+cal.quantity+"price[$index]="+cal.price
+            }else{
+                store = store + "quantity[$index]="+cal.quantity+"price[$index]="+cal.price+"\n"
+            }
+        }
+        val finalStore = store?.replace("null","")
+        if (finalStore != null) {
+            prefManager.setString(PrefConst.PREF_HISAAB,finalStore)
         }
     }
 }
