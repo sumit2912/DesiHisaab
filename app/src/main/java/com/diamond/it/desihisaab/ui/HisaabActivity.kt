@@ -3,7 +3,6 @@ package com.diamond.it.desihisaab.ui
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -15,12 +14,12 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.view.GravityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.diamond.it.desihisaab.R
 import com.diamond.it.desihisaab.adapter.DesiHisaabAdapter
+import com.diamond.it.desihisaab.common.AlertDialogManager
 import com.diamond.it.desihisaab.common.FinalTotal
 import com.diamond.it.desihisaab.model.data_model.Calculation
 import com.diamond.it.desihisaab.model.data_model.Data
@@ -30,9 +29,12 @@ import com.diamond.it.desihisaab.screen.ScreenHelper
 import com.diamond.it.desihisaab.utils.Utils
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_hisaab.*
+import org.json.JSONArray
+import org.json.JSONObject
 
 
-class HisaabActivity : BaseActivity(), FinalTotal, NavigationView.OnNavigationItemSelectedListener {
+class HisaabActivity : BaseActivity(), FinalTotal, NavigationView.OnNavigationItemSelectedListener,
+    AlertDialogManager.AlertDialogListener {
 
     private val TAG = Screen.HISAAB_ACTIVITY
     private val REQ_CALL = 101
@@ -58,12 +60,23 @@ class HisaabActivity : BaseActivity(), FinalTotal, NavigationView.OnNavigationIt
         desiHisaabAdapter = DesiHisaabAdapter(context, getDefaultList(), finalTotal)
         rv.layoutManager = llManager
         rv.adapter = desiHisaabAdapter
-        System.out.println(prefManager.getString(PrefConst.PREF_HISAAB))
+        if (!prefManager.getString(PrefConst.PREF_HISAAB)?.isEmpty()!!) {
+            showRestoreAlert()
+        }
         /* adView.adUnitId = getString(R.string.add_unit_id)
          adView.adSize = AdSize.BANNER
          val adRequestBuilder = AdRequest.Builder()
          val adRequest = adRequestBuilder.build()
          adView.loadAd(adRequest)*/
+    }
+
+    private fun showRestoreAlert() {
+        alertDialogManager.setType("Restore Alert")
+        alertDialogManager.setTitle("Restore Alert!")
+        alertDialogManager.setMessage("Restore previous calculation if any stored?")
+        alertDialogManager.setPositive("Restore")
+        alertDialogManager.setNegative("Cancel")
+        alertDialogManager.show()
     }
 
     override fun onResume() {
@@ -168,6 +181,45 @@ class HisaabActivity : BaseActivity(), FinalTotal, NavigationView.OnNavigationIt
         super.onMessageReceived(from, msg, data)
     }
 
+    override fun getAlertDialogListener(): AlertDialogManager.AlertDialogListener {
+        return this@HisaabActivity
+    }
+
+    override fun onPositiveClicked(type: String) {
+        if (type == "Exit Alert") {
+            saveLater()
+            finish()
+        } else if (type == "Restore Alert") {
+            restore()
+        }
+    }
+
+    override fun onNegativeClicked(type: String) {
+        if (type == "Exit Alert") {
+            prefManager.removeValue(PrefConst.PREF_HISAAB)
+            finish()
+        } else if (type == "Restore Alert") {
+            prefManager.removeValue(PrefConst.PREF_HISAAB)
+        }
+    }
+
+    private fun restore() {
+        val list = ArrayList<Calculation>()
+        val jsonArray = JSONArray(prefManager.getString(PrefConst.PREF_HISAAB))
+        Utils.print(TAG, "Size = " + jsonArray.length())
+        for (i in 0 until (jsonArray.length() - 1)) {
+            val calObject = jsonArray.getJSONObject(i)
+            val calculation = Calculation()
+            calculation.quantity = calObject.optDouble("quantity")
+            calculation.price = calObject.optDouble("price")
+            calculation.total = calObject.optDouble("total")
+            list.add(calculation)
+        }
+        desiHisaabAdapter.getList().clear()
+        desiHisaabAdapter.getList().addAll(list)
+        desiHisaabAdapter.notifyDataSetChanged()
+    }
+
     @SuppressLint("MissingPermission")
     private fun contactUs() {
         val callIntent = Intent(Intent.ACTION_CALL)
@@ -200,38 +252,33 @@ class HisaabActivity : BaseActivity(), FinalTotal, NavigationView.OnNavigationIt
     }
 
     private fun saveLaterAlert() {
-        val alertDialogBuilder = AlertDialog.Builder(context)
-        alertDialogBuilder.setTitle("Exit Alert")
-        alertDialogBuilder.setMessage("Save for later calculation and exit?")
-        alertDialogBuilder.setPositiveButton("Save and Exit") { dialogInterface: DialogInterface, i: Int ->
-            saveLater()
-            dialogInterface.dismiss()
-            finish()
-        }
-
-        alertDialogBuilder.setNegativeButton("Exit") { dialogInterface: DialogInterface, i: Int ->
-            dialogInterface.dismiss()
-            finish()
-        }
-
-        val alertDialog = alertDialogBuilder.create()
-        alertDialog.show()
+        alertDialogManager.setType("Exit Alert")
+        alertDialogManager.setTitle("Exit Alert!")
+        alertDialogManager.setMessage("Save for later calculation and exit?")
+        alertDialogManager.setPositive("Save and Exit")
+        alertDialogManager.setNegative("Exit")
+        alertDialogManager.show()
     }
 
-    private fun saveLater(){
+    private fun saveLater() {
         val list = desiHisaabAdapter.getList()
         prefManager.removeValue(PrefConst.PREF_HISAAB)
-        var store : String? = null
-        for ((index,cal) in list.withIndex()){
-            if(index == list.size - 1){
-                store = store + "quantity[$index]="+cal.quantity+"price[$index]="+cal.price
-            }else{
-                store = store + "quantity[$index]="+cal.quantity+"price[$index]="+cal.price+"\n"
+        var isData = 0.0
+        for (cal in list) {
+            if (cal.quantity != 0.0 || cal.price != 0.0) {
+                isData = if (cal.quantity == 0.0) cal.price else cal.quantity
             }
         }
-        val finalStore = store?.replace("null","")
-        if (finalStore != null) {
-            prefManager.setString(PrefConst.PREF_HISAAB,finalStore)
+        if (isData != 0.0) {
+            val jsonArray = JSONArray()
+            for (cal in list) {
+                val jsonObject = JSONObject()
+                jsonObject.put("quantity", cal.quantity)
+                jsonObject.put("price", cal.price)
+                jsonObject.put("total", cal.total)
+                jsonArray.put(jsonObject)
+            }
+            prefManager.setString(PrefConst.PREF_HISAAB, jsonArray.toString())
         }
     }
 }

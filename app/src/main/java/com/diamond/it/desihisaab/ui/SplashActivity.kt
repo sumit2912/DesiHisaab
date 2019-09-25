@@ -5,17 +5,16 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.view.Window
-import android.view.WindowManager
 import android.view.animation.AccelerateDecelerateInterpolator
 import com.diamond.it.desihisaab.R
+import com.diamond.it.desihisaab.common.AlertDialogManager
 import com.diamond.it.desihisaab.model.data_model.Data
 import com.diamond.it.desihisaab.screen.Screen
 import com.diamond.it.desihisaab.screen.ScreenHelper
 import com.diamond.it.desihisaab.utils.Utils
 import kotlinx.android.synthetic.main.activity_splash.*
 
-class SplashActivity : BaseActivity() {
+class SplashActivity : BaseActivity(), AlertDialogManager.AlertDialogListener {
 
     private val TAG = Screen.SPLASH_ACTIVITY
     private lateinit var intentHisaab: Intent
@@ -59,6 +58,18 @@ class SplashActivity : BaseActivity() {
 
     override fun onMessageReceived(from: String, msg: String, data: Data?) {
         super.onMessageReceived(from, msg, data)
+    }
+
+    override fun getAlertDialogListener(): AlertDialogManager.AlertDialogListener {
+        return this@SplashActivity
+    }
+
+    override fun onPositiveClicked(type: String) {
+
+    }
+
+    override fun onNegativeClicked(type: String) {
+
     }
 
 }

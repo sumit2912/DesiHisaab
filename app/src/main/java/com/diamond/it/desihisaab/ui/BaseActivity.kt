@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import com.diamond.it.desihisaab.common.AlertDialogManager
 import com.diamond.it.desihisaab.common.AppManager
 import com.diamond.it.desihisaab.model.data_model.Data
 import com.diamond.it.desihisaab.pref.PrefManager
@@ -20,6 +21,7 @@ abstract class BaseActivity : AppCompatActivity(), View.OnClickListener, ScreenH
     protected lateinit var appManager: AppManager
     protected lateinit var screenHelper: ScreenHelper
     protected lateinit var prefManager: PrefManager
+    protected lateinit var alertDialogManager: AlertDialogManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,12 +32,14 @@ abstract class BaseActivity : AppCompatActivity(), View.OnClickListener, ScreenH
         screenHelper = appManager.getScreenHelper()
         screenHelper.getDataMessageListenerList()[context.javaClass.simpleName] = addMessageReceiver()
         prefManager = appManager.getPrefManager()
+        alertDialogManager = AlertDialogManager(context, getAlertDialogListener())
     }
 
     protected abstract fun getLayoutId(): Int
     protected abstract fun getActivityContext(): Context
     protected abstract fun initUi()
     protected abstract fun addMessageReceiver(): ScreenHelper.MessageReceiver
+    protected abstract fun getAlertDialogListener(): AlertDialogManager.AlertDialogListener
 
     override fun onMessageReceived(from: String, msg: String, data: Data?) {
         val isData = if (data == null) "No" else "YES"

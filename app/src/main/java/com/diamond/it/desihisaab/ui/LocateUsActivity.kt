@@ -12,6 +12,8 @@ import android.view.View
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import com.diamond.it.desihisaab.R
+import com.diamond.it.desihisaab.common.AlertDialogManager
+import com.diamond.it.desihisaab.model.data_model.Data
 import com.diamond.it.desihisaab.screen.ScreenHelper
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -22,8 +24,9 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.activity_locat_us.*
 
-class LocateUsActivity : BaseActivity(), OnMapReadyCallback {
+class LocateUsActivity : BaseActivity(), OnMapReadyCallback, AlertDialogManager.AlertDialogListener {
 
+    private val TAG = ""
     private lateinit var locationManager: LocationManager
     private lateinit var supportMapFragment: SupportMapFragment
     private lateinit var googleMap: GoogleMap
@@ -99,9 +102,9 @@ class LocateUsActivity : BaseActivity(), OnMapReadyCallback {
         } catch (e: SecurityException) {
         }
 
-        var latlng : LatLng? = null
+        var latlng: LatLng? = null
 
-        if(gpsLocation != null){
+        if (gpsLocation != null) {
             latlng = LatLng(gpsLocation.latitude, gpsLocation.longitude)
         }
 
@@ -158,5 +161,21 @@ class LocateUsActivity : BaseActivity(), OnMapReadyCallback {
         } else {
             Toast.makeText(context, "Grant location permission to locate us.", Toast.LENGTH_LONG).show()
         }
+    }
+
+    override fun onMessageReceived(from: String, msg: String, data: Data?) {
+        super.onMessageReceived(from, msg, data)
+    }
+
+    override fun getAlertDialogListener(): AlertDialogManager.AlertDialogListener {
+        return this@LocateUsActivity
+    }
+
+    override fun onPositiveClicked(type: String) {
+
+    }
+
+    override fun onNegativeClicked(type: String) {
+
     }
 }

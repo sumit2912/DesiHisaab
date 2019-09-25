@@ -2,19 +2,18 @@ package com.diamond.it.desihisaab.ui
 
 import android.content.Context
 import android.os.Bundle
-import android.text.Editable
 import android.text.TextUtils
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import com.diamond.it.desihisaab.R
+import com.diamond.it.desihisaab.common.AlertDialogManager
 import com.diamond.it.desihisaab.model.data_model.Data
 import com.diamond.it.desihisaab.pref.PrefConst
-import com.diamond.it.desihisaab.screen.Screen
 import com.diamond.it.desihisaab.screen.ScreenHelper
 import kotlinx.android.synthetic.main.activity_settings.*
 
-class SettingsActivity : BaseActivity() {
+class SettingsActivity : BaseActivity(), AlertDialogManager.AlertDialogListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,8 +33,8 @@ class SettingsActivity : BaseActivity() {
         supportActionBar?.title = getString(R.string.settings)
 
         var titleOfApp = prefManager.getString(PrefConst.PREF_HISAAB_TITLE)
-        if(TextUtils.isEmpty(titleOfApp)){
-           titleOfApp = getString(R.string.app_name)
+        if (TextUtils.isEmpty(titleOfApp)) {
+            titleOfApp = getString(R.string.app_name)
         }
         edTitle.setText(titleOfApp)
         btnSave.setOnClickListener(this)
@@ -46,13 +45,13 @@ class SettingsActivity : BaseActivity() {
     }
 
     override fun onClick(view: View?) {
-        when(view?.id){
+        when (view?.id) {
             R.id.btnSave -> {
                 val myTitle = edTitle.text.toString()
-                if(myTitle.isEmpty()){
-                    Toast.makeText(context,"Please enter text",Toast.LENGTH_LONG).show()
-                }else{
-                    Toast.makeText(context,"Saved Successfully...",Toast.LENGTH_LONG).show()
+                if (myTitle.isEmpty()) {
+                    Toast.makeText(context, "Please enter text", Toast.LENGTH_LONG).show()
+                } else {
+                    Toast.makeText(context, "Saved Successfully...", Toast.LENGTH_LONG).show()
                     prefManager.setString(PrefConst.PREF_HISAAB_TITLE, myTitle)
                     finish()
                 }
@@ -65,6 +64,10 @@ class SettingsActivity : BaseActivity() {
 
     }
 
+    override fun getAlertDialogListener(): AlertDialogManager.AlertDialogListener {
+        return this@SettingsActivity
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
             onBackPressed()
@@ -74,5 +77,13 @@ class SettingsActivity : BaseActivity() {
 
     override fun onBackPressed() {
         finish()
+    }
+
+    override fun onPositiveClicked(type: String) {
+
+    }
+
+    override fun onNegativeClicked(type: String) {
+
     }
 }
