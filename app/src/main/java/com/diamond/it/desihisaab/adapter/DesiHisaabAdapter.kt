@@ -41,6 +41,12 @@ class DesiHisaabAdapter(
     }
 
     override fun onBindViewHolder(holder: HisaabHolder, position: Int) {
+        val calculation = list[position]
+        if(calculation.quantity != 0.0 || calculation.price != 0.0) {
+            holder.edQuantity.setText(calculation.quantity.toString())
+            holder.edPrice.setText(calculation.price.toString())
+            holder.edTotal.setText(calculation.total.toString())
+        }
     }
 
     class HisaabHolder(itemView: View, list: ArrayList<Calculation>, finalTotal: FinalTotal) : RecyclerView.ViewHolder(itemView) {

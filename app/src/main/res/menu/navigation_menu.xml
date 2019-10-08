@@ -13,4 +13,8 @@
           android:title="@string/locate_us"
           android:icon="@drawable/ic_locate_us"/>
 
+    <item android:id="@+id/aboutUs"
+          android:title="@string/about_us"
+          android:icon="@drawable/ic_about_us"/>
+
 </menu>

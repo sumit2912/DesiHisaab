@@ -150,6 +150,11 @@ class HisaabActivity : BaseActivity(), FinalTotal, NavigationView.OnNavigationIt
                 startActivity(locationIntent)
             }
 
+            R.id.aboutUs ->{
+                Utils.hideKeyBoardFromView(context)
+                drawerlayout.closeDrawer(GravityCompat.START, true)
+            }
+
             else -> {
                 return true
             }
