@@ -22,6 +22,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.maps.GeoApiContext
 import kotlinx.android.synthetic.main.activity_locat_us.*
 
 class LocateUsActivity : BaseActivity(), OnMapReadyCallback, AlertDialogManager.AlertDialogListener {
@@ -121,12 +122,18 @@ class LocateUsActivity : BaseActivity(), OnMapReadyCallback, AlertDialogManager.
 
     private fun drawCurrentLocation(latlng: LatLng) {
         googleMap.clear()
-        val markerOptions = MarkerOptions()
-        markerOptions.position(latlng)
-        markerOptions.title("Your Location")
-        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
-        googleMap.addMarker(markerOptions)
+        val markerOptionsSource = MarkerOptions()
+        markerOptionsSource.position(latlng)
+        markerOptionsSource.title("Your Location")
+        markerOptionsSource.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
+        googleMap.addMarker(markerOptionsSource)
 
+        val markerOptionsDestiantion = MarkerOptions()
+        val latlngDes = LatLng(21.640639,69.609194)
+        markerOptionsDestiantion.position(latlngDes)
+        markerOptionsDestiantion.title("Your Destination Location")
+        markerOptionsDestiantion.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
+        googleMap.addMarker(markerOptionsDestiantion)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

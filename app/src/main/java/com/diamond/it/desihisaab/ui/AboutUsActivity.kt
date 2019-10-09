@@ -2,6 +2,7 @@ package com.diamond.it.desihisaab.ui
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
@@ -44,8 +45,7 @@ class AboutUsActivity : BaseActivity(), AlertDialogManager.AlertDialogListener {
         when(view?.id){
             R.id.tvEmail -> {
                 val intentEmail = Intent(Intent.ACTION_SENDTO)
-                intentEmail.setType("text/plain")
-                intentEmail.putExtra(Intent.EXTRA_EMAIL,tvEmail.text)
+                intentEmail.setData(Uri.parse("mailto:diamond.it.solutions2019@gmail.com"))
                 startActivity(Intent.createChooser(intentEmail,"Send Email"))
             }
         }
