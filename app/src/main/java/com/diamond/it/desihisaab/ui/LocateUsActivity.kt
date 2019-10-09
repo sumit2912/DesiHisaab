@@ -61,7 +61,8 @@ class LocateUsActivity : BaseActivity(), OnMapReadyCallback, AlertDialogManager.
             if (checkCoarseLocationPermission() && checkFineLocationPermission()) {
                 locateMe()
             } else {
-                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CALL_PHONE), REQ_LOCATION)
+                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION,
+                    Manifest.permission.ACCESS_FINE_LOCATION), REQ_LOCATION)
             }
         } else {
             locateMe()

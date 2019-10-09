@@ -7,4 +7,101 @@
         android:layout_height="match_parent"
         tools:context=".ui.AboutUsActivity">
 
+    <TextView
+            android:id="@+id/tvComName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/tvAddress"
+            android:text="Diamond IT Solutions"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:layout_marginTop="20dp"/>
+
+    <TextView
+            android:id="@+id/tvAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/tvComName"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/tvAboutDev"
+            android:text="F-6, Siddhi Vinayak Complex, Nr. Bank of India, Khakh Chowk, Porbandar, Gujarat, India 360575"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:padding="10dp"/>
+
+    <TextView
+            android:id="@+id/tvAboutDev"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/tvAddress"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/tvDev"
+            app:layout_constraintRight_toLeftOf="@+id/tvDev"
+            android:text="About developer :"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:padding="10dp"
+            app:layout_constraintHorizontal_weight="0.4"
+            app:layout_constraintHorizontal_chainStyle="packed"/>
+
+    <TextView
+            android:id="@+id/tvDev"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/tvAddress"
+            app:layout_constraintStart_toEndOf="@+id/tvAboutDev"
+            app:layout_constraintLeft_toRightOf="@+id/tvAboutDev"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:text="Sumit P Dalakiya, Founder and Owner"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:paddingEnd="10dp"
+            android:paddingRight="10dp"
+            app:layout_constraintHorizontal_weight="0.5"/>
+
+    <TextView
+            android:id="@+id/tvLabelEmail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/tvDev"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/tvEmail"
+            app:layout_constraintRight_toLeftOf="@+id/tvEmail"
+            android:text="Email :"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:padding="10dp"
+            android:layout_marginTop="15dp"
+            app:layout_constraintHorizontal_weight="0.2"
+            app:layout_constraintHorizontal_chainStyle="packed"/>
+
+    <TextView
+            android:id="@+id/tvEmail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/tvDev"
+            app:layout_constraintStart_toEndOf="@+id/tvLabelEmail"
+            app:layout_constraintLeft_toRightOf="@+id/tvLabelEmail"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:text="diamond.it.solutions2019@gmail.com"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:padding="10dp"
+            android:layout_marginTop="15dp"
+            app:layout_constraintHorizontal_weight="0.8"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

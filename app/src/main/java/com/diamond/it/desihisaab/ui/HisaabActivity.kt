@@ -43,6 +43,8 @@ class HisaabActivity : BaseActivity(), FinalTotal, NavigationView.OnNavigationIt
     private lateinit var finalTotal: FinalTotal
     private lateinit var actionbardrawer: ActionBarDrawerToggle
     private var intentSettings: Intent? = null
+    private var intentLocation: Intent? = null
+    private var intentAboutUs: Intent? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -146,13 +148,21 @@ class HisaabActivity : BaseActivity(), FinalTotal, NavigationView.OnNavigationIt
                 Utils.hideKeyBoardFromView(context)
                 drawerlayout.closeDrawer(GravityCompat.START, false)
                 //val uri = String.format(Locale.ENGLISH,"geo:%f,%f",21.640639,69.609194)
-                val locationIntent = Intent(context, LocateUsActivity::class.java)
-                startActivity(locationIntent)
+                intentLocation = Intent(context, LocateUsActivity::class.java)
+                if(!disableClick && intentLocation != null) {
+                    disableClick = true
+                    startActivity(intentLocation)
+                }
             }
 
             R.id.aboutUs ->{
                 Utils.hideKeyBoardFromView(context)
-                drawerlayout.closeDrawer(GravityCompat.START, true)
+                drawerlayout.closeDrawer(GravityCompat.START, false)
+                intentAboutUs = Intent(context, AboutUsActivity::class.java)
+                if(!disableClick && intentAboutUs != null) {
+                    disableClick = true
+                    startActivity(intentAboutUs)
+                }
             }
 
             else -> {
