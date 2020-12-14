@@ -6,12 +6,14 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.app.ActivityCompat
@@ -36,7 +38,7 @@ import org.json.JSONObject
 class HisaabActivity : BaseActivity(), FinalTotal, NavigationView.OnNavigationItemSelectedListener,
     AlertDialogManager.AlertDialogListener {
 
-    private val TAG = Screen.HISAAB_ACTIVITY
+    val TAG = Screen.HISAAB_ACTIVITY
     private val REQ_CALL = 101
     private lateinit var llManager: LinearLayoutManager
     private lateinit var desiHisaabAdapter: DesiHisaabAdapter
@@ -59,7 +61,23 @@ class HisaabActivity : BaseActivity(), FinalTotal, NavigationView.OnNavigationIt
         nv.setNavigationItemSelectedListener(this)
         llManager = LinearLayoutManager(context)
         finalTotal = this
-        desiHisaabAdapter = DesiHisaabAdapter(context, getDefaultList(), finalTotal)
+        desiHisaabAdapter = DesiHisaabAdapter(
+            context,
+            getDefaultList(),
+            finalTotal,
+            object : DesiHisaabAdapter.ActionListener {
+                override fun onAction(action: String) {
+                    if (action.equals("scrollTop")) {
+                        Utils.hideKeyBoardFromView(context)
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            llManager.scrollToPosition(0)
+                            val editText: EditText? =
+                                rv.findViewHolderForAdapterPosition(0)?.itemView?.findViewById(R.id.edQuantity)
+                            editText?.requestFocus()
+                        }, 1000)
+                    }
+                }
+            })
         rv.layoutManager = llManager
         rv.adapter = desiHisaabAdapter
         if (!prefManager.getString(PrefConst.PREF_HISAAB)?.isEmpty()!!) {
@@ -84,7 +102,8 @@ class HisaabActivity : BaseActivity(), FinalTotal, NavigationView.OnNavigationIt
     override fun onResume() {
         super.onResume()
         val titleOfApp = prefManager.getString(PrefConst.PREF_HISAAB_TITLE)
-        supportActionBar?.title = if (TextUtils.isEmpty(titleOfApp)) getString(R.string.app_name) else titleOfApp
+        supportActionBar?.title =
+            if (TextUtils.isEmpty(titleOfApp)) getString(R.string.app_name) else titleOfApp
         disableClick = false
     }
 
@@ -130,7 +149,7 @@ class HisaabActivity : BaseActivity(), FinalTotal, NavigationView.OnNavigationIt
                 }
             }
 
-            R.id.contactUs -> {
+            /*R.id.contactUs -> {
                 Utils.hideKeyBoardFromView(context)
                 drawerlayout.closeDrawer(GravityCompat.START, true)
                 if (Build.VERSION.SDK_INT >= 23) {
@@ -153,13 +172,13 @@ class HisaabActivity : BaseActivity(), FinalTotal, NavigationView.OnNavigationIt
                     disableClick = true
                     startActivity(intentLocation)
                 }
-            }
+            }*/
 
-            R.id.aboutUs ->{
+            R.id.aboutUs -> {
                 Utils.hideKeyBoardFromView(context)
                 drawerlayout.closeDrawer(GravityCompat.START, false)
                 intentAboutUs = Intent(context, AboutUsActivity::class.java)
-                if(!disableClick && intentAboutUs != null) {
+                if (!disableClick && intentAboutUs != null) {
                     disableClick = true
                     startActivity(intentAboutUs)
                 }
@@ -178,7 +197,7 @@ class HisaabActivity : BaseActivity(), FinalTotal, NavigationView.OnNavigationIt
         }
 
         if (item.itemId == R.id.plus) {
-            var c = Calculation()
+            val c = Calculation()
             desiHisaabAdapter.getList().add(c)
             desiHisaabAdapter.notifyDataSetChanged()
             rv.scrollToPosition(desiHisaabAdapter.getList().size - 1)
@@ -249,7 +268,11 @@ class HisaabActivity : BaseActivity(), FinalTotal, NavigationView.OnNavigationIt
         ) == PackageManager.PERMISSION_GRANTED
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == REQ_CALL && grantResults.size > 0 && checkCallPermission()) {
             contactUs()

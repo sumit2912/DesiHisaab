@@ -3,13 +3,7 @@ package com.diamond.it.desihisaab.uc
 import android.text.Editable
 import android.text.TextWatcher
 
-class CustomTextWatcher(myTextWatcher: MyTextWatcher) : TextWatcher {
-
-    private var myTextWatcher: MyTextWatcher
-
-    init {
-        this.myTextWatcher = myTextWatcher
-    }
+class CustomTextWatcher(private var myTextWatcher: MyTextWatcher) : TextWatcher {
 
     override fun afterTextChanged(p0: Editable?) {
     }

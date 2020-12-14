@@ -38,6 +38,10 @@ class SettingsActivity : BaseActivity(), AlertDialogManager.AlertDialogListener 
         }
         edTitle.setText(titleOfApp)
         btnSave.setOnClickListener(this)
+        switchDefQuantity.isChecked = prefManager.getBoolean(PrefConst.PREF_DEF_QUANTITY)
+        switchDefQuantity.setOnCheckedChangeListener { buttonView, isChecked ->
+            prefManager.setBoolean(PrefConst.PREF_DEF_QUANTITY, isChecked)
+        }
     }
 
     override fun addMessageReceiver(): ScreenHelper.MessageReceiver {

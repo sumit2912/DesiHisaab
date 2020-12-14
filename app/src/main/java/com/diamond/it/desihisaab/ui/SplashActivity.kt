@@ -4,11 +4,13 @@ import android.animation.ObjectAnimator
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import com.diamond.it.desihisaab.R
 import com.diamond.it.desihisaab.common.AlertDialogManager
 import com.diamond.it.desihisaab.model.data_model.Data
+import com.diamond.it.desihisaab.pref.PrefConst
 import com.diamond.it.desihisaab.screen.Screen
 import com.diamond.it.desihisaab.screen.ScreenHelper
 import com.diamond.it.desihisaab.utils.Utils
@@ -28,6 +30,9 @@ class SplashActivity : BaseActivity(), AlertDialogManager.AlertDialogListener {
         objectAnimator.repeatCount = ObjectAnimator.INFINITE
         objectAnimator.interpolator = AccelerateDecelerateInterpolator()
         objectAnimator.start()
+        if (TextUtils.isEmpty(prefManager.getString(PrefConst.PREF_HISAAB_TITLE))) {
+            prefManager.setBoolean(PrefConst.PREF_DEF_QUANTITY, true)
+        }
         initUi()
     }
 

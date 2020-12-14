@@ -4,4 +4,5 @@ object PrefConst {
     const val PREF_FILE_NAME = "PREF_DESI_HISAAB"
     const val PREF_HISAAB_TITLE = "PREF_HISAAB_TITLE"
     const val PREF_HISAAB = "PREF_HISAAB"
+    const val PREF_DEF_QUANTITY = "PREF_DEF_QUANTITY";
 }

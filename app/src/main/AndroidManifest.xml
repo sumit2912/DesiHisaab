@@ -23,10 +23,6 @@
                   android:configChanges="orientation|screenLayout|screenSize|smallestScreenSize"
                   android:screenOrientation="portrait"/>
         <activity
-                android:name=".ui.LocateUsActivity"
-                android:configChanges="orientation|screenLayout|screenSize|smallestScreenSize"
-                android:screenOrientation="portrait"/>
-        <activity
                 android:name=".ui.SettingsActivity"
                 android:configChanges="orientation|screenLayout|screenSize|smallestScreenSize"
                 android:screenOrientation="portrait"/>
@@ -49,9 +45,6 @@
         <meta-data
                 android:name="com.google.android.gms.ads.APPLICATION_ID"
                 android:value="@string/admob_app_id"/>
-        <meta-data
-                android:name="com.google.android.gms.version"
-                android:value="@integer/google_play_services_version"/>
         <meta-data
                 android:name="com.google.android.geo.API_KEY"
                 android:value="@string/google_maps_key"/>

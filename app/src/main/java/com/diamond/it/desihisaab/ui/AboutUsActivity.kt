@@ -45,7 +45,7 @@ class AboutUsActivity : BaseActivity(), AlertDialogManager.AlertDialogListener {
         when(view?.id){
             R.id.tvEmail -> {
                 val intentEmail = Intent(Intent.ACTION_SENDTO)
-                intentEmail.setData(Uri.parse("mailto:diamond.it.solutions2019@gmail.com"))
+                intentEmail.setData(Uri.parse("mailto:"+resources.getString(R.string.contact_email)))
                 startActivity(Intent.createChooser(intentEmail,"Send Email"))
             }
         }
