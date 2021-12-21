@@ -9,6 +9,6 @@
 
     <item
             android:id="@+id/showSr"
-            android:title="Show Sr No"
+            android:title="Hide Sr No"
             app:showAsAction="never"/>
 </menu>
