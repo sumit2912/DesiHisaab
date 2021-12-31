@@ -14,16 +14,19 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.app.ActivityCompat
 import androidx.core.view.GravityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.dalakiya.infotech.desihisaab.R
 import com.dalakiya.infotech.desihisaab.adapter.DesiHisaabAdapter
 import com.dalakiya.infotech.desihisaab.common.AlertDialogManager
 import com.dalakiya.infotech.desihisaab.common.FinalTotal
+import com.dalakiya.infotech.desihisaab.common.FocusListener
 import com.dalakiya.infotech.desihisaab.model.data_model.Calculation
 import com.dalakiya.infotech.desihisaab.model.data_model.Data
 import com.dalakiya.infotech.desihisaab.pref.PrefConst
@@ -32,6 +35,8 @@ import com.dalakiya.infotech.desihisaab.screen.ScreenHelper
 import com.dalakiya.infotech.desihisaab.utils.Utils
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_hisaab.*
+import kotlinx.android.synthetic.main.activity_hisaab.clSrNo
+import kotlinx.android.synthetic.main.raw_desi_hisaab_adapter_item.*
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -48,6 +53,10 @@ class HisaabActivity : BaseActivity(), FinalTotal, NavigationView.OnNavigationIt
     private var intentSettings: Intent? = null
     private var intentLocation: Intent? = null
     private var intentAboutUs: Intent? = null
+    private var quantityFocused = false
+    private var priceFocused = false
+    private var quantityPos = -1
+    private var pricePos = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,9 +76,10 @@ class HisaabActivity : BaseActivity(), FinalTotal, NavigationView.OnNavigationIt
             getDefaultList(),
             finalTotal,
             prefManager.getSrNoVisibility(PrefConst.PREF_SR_NO_VISIBILITY),
+            focusListener,
             object : DesiHisaabAdapter.ActionListener {
                 override fun onAction(adapterPosition: Int) {
-                    val c = Calculation()
+                    /*val c = Calculation()
                     desiHisaabAdapter.getList().add(c)
                     desiHisaabAdapter.notifyItemInserted(desiHisaabAdapter.getList().size - 1)
                     Handler(Looper.getMainLooper()).postDelayed({
@@ -82,11 +92,120 @@ class HisaabActivity : BaseActivity(), FinalTotal, NavigationView.OnNavigationIt
                                 R.id.edQuantity
                             )
                         editText?.requestFocus()
-                    }, 250)
+                    }, 250)*/
                 }
             })
         rv.layoutManager = llManager
         rv.adapter = desiHisaabAdapter
+        rv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (dy > 0 && llManager.findLastCompletelyVisibleItemPosition() >= desiHisaabAdapter.getList().size - 11) {
+                    for (i in 0..9) {
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            val c = Calculation()
+                            desiHisaabAdapter.getList().add(c)
+                            desiHisaabAdapter.notifyItemInserted(desiHisaabAdapter.getList().size - 1)
+                        }, 50)
+                    }
+                }
+            }
+        })
+        ivScrollUp.setOnClickListener {
+            rv.scrollToPosition(0)
+            Handler(Looper.getMainLooper()).postDelayed({
+                val editText =
+                    rv.findViewHolderForAdapterPosition(0)?.itemView?.findViewById<EditText>(
+                        R.id.edQuantity
+                    )
+                editText?.post {
+                    editText.requestFocus()
+                    val imm: InputMethodManager = editText.context
+                        .getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+                    imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT)
+                }
+            }, 1000)
+        }
+
+        ivScrollDown.setOnClickListener {
+            var isData = -1
+            val end = desiHisaabAdapter.getList().size - 1
+            for (index in (0..end).reversed()) {
+                Log.e("HA", "index = $index")
+                val data = desiHisaabAdapter.getList()[index]
+                if (data.total != 0.0) {
+                    isData = index
+                    break
+                }
+            }
+
+            if (isData != -1) {
+                rv.scrollToPosition(isData)
+            } else {
+                rv.scrollToPosition(19)
+                if (desiHisaabAdapter.getList().size == 20) {
+                    for (i in 0..9) {
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            val c = Calculation()
+                            desiHisaabAdapter.getList().add(c)
+                            desiHisaabAdapter.notifyItemInserted(desiHisaabAdapter.getList().size - 1)
+                        }, 50)
+                    }
+                }
+            }
+
+            Handler(Looper.getMainLooper()).postDelayed({
+                val editText =
+                    rv.findViewHolderForAdapterPosition(
+                        if (isData == -1) 19 else
+                            isData
+                    )?.itemView?.findViewById<EditText>(
+                        R.id.edPrice
+                    )
+                editText?.post {
+                    editText.requestFocus()
+                    val imm: InputMethodManager = editText.context
+                        .getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+                    imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT)
+                }
+            }, 1000)
+        }
+
+        ivPrev.setOnClickListener {
+            if (canRun) {
+                if (priceFocused && pricePos != -1) {
+                    val editText =
+                        rv.findViewHolderForAdapterPosition(pricePos)?.itemView?.findViewById<EditText>(
+                            R.id.edQuantity
+                        )
+                    editText?.requestFocus()
+                } else if (quantityFocused && quantityPos != -1) {
+                    val editText =
+                        rv.findViewHolderForAdapterPosition(quantityPos - 1)?.itemView?.findViewById<EditText>(
+                            R.id.edPrice
+                        )
+                    editText?.requestFocus()
+                }
+            }
+        }
+
+        ivNext.setOnClickListener {
+            if (canRun) {
+                if (quantityFocused && quantityPos != -1) {
+                    val editText =
+                        rv.findViewHolderForAdapterPosition(quantityPos)?.itemView?.findViewById<EditText>(
+                            R.id.edPrice
+                        )
+                    editText?.requestFocus()
+                } else if (priceFocused && pricePos != -1) {
+                    val editText =
+                        rv.findViewHolderForAdapterPosition(pricePos + 1)?.itemView?.findViewById<EditText>(
+                            R.id.edQuantity
+                        )
+                    editText?.requestFocus()
+                }
+            }
+        }
         if (!prefManager.getString(PrefConst.PREF_HISAAB)?.isEmpty()!!) {
             if (prefManager.getBoolean(PrefConst.PREF_AUTO_SAVE_ENABLED)) {
                 Handler(Looper.getMainLooper()).postDelayed({ restore() }, 1000)
@@ -103,6 +222,42 @@ class HisaabActivity : BaseActivity(), FinalTotal, NavigationView.OnNavigationIt
          val adRequestBuilder = AdRequest.Builder()
          val adRequest = adRequestBuilder.build()
          adView.loadAd(adRequest)*/
+    }
+
+    var canRun = true
+    private val focusListener = object : FocusListener {
+        override fun onFocusChange(which: String, pos: Int, hasFocus: Boolean) {
+            if (which == "Quantity") {
+                quantityFocused = hasFocus
+                quantityPos = pos
+            }
+            if (which == "Price") {
+                priceFocused = hasFocus
+                pricePos = pos
+            }
+            if (quantityFocused) {
+                priceFocused = false
+            }
+            if (priceFocused) {
+                quantityFocused = false
+            }
+
+            if (canRun) {
+                canRun = false
+                handlerNp.postDelayed(runnableNP, 50)
+            }
+        }
+    }
+
+    private val handlerNp = Handler(Looper.getMainLooper())
+
+    private val runnableNP = Runnable {
+        if (quantityFocused) {
+            pricePos = -1
+        } else if (priceFocused) {
+            quantityPos = -1
+        }
+        canRun = true
     }
 
     private fun showRestoreAlert() {
@@ -146,7 +301,7 @@ class HisaabActivity : BaseActivity(), FinalTotal, NavigationView.OnNavigationIt
 
     private fun getDefaultList(): ArrayList<Calculation> {
         val list = ArrayList<Calculation>()
-        for (i in 0..14) {
+        for (i in 0..19) {
             val c = Calculation()
             list.add(c)
         }
@@ -266,7 +421,8 @@ class HisaabActivity : BaseActivity(), FinalTotal, NavigationView.OnNavigationIt
                 context,
                 getDefaultList(),
                 finalTotal,
-                prefManager.getSrNoVisibility(PrefConst.PREF_SR_NO_VISIBILITY),
+                clSrNo.visibility,
+                focusListener,
                 object : DesiHisaabAdapter.ActionListener {
                     override fun onAction(adapterPosition: Int) {
                         val c = Calculation()
@@ -317,13 +473,13 @@ class HisaabActivity : BaseActivity(), FinalTotal, NavigationView.OnNavigationIt
             if (calculation.total > 0) {
                 adapterPosition = i
             }
-            if (adapterPosition > 14) {
+            if (adapterPosition > 19) {
                 list.add(calculation)
             } else {
                 list[adapterPosition] = calculation
             }
         }
-        if (desiHisaabAdapter.getList().size > 14) {
+        if (desiHisaabAdapter.getList().size > 19) {
             desiHisaabAdapter.getList().clear()
             desiHisaabAdapter.getList().addAll(list)
         }

@@ -289,12 +289,12 @@
                 android:id="@+id/clBottom"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/llGesture"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/rv">
+                app:layout_constraintTop_toBottomOf="@+id/clRvRoot">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/clFtotal"
@@ -434,6 +434,75 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/llGesture"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/box_height"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/clBottom">
+
+            <ImageView
+                    android:id="@+id/ivScrollUp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/ring"
+                    android:padding="3dp"
+                    android:src="@drawable/ic_scroll_up"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/ivPrev"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                    android:id="@+id/ivPrev"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/ring"
+                    android:padding="3dp"
+                    android:rotation="270"
+                    android:src="@drawable/ic_scroll_up"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/ivNext"
+                    app:layout_constraintStart_toEndOf="@+id/ivScrollUp"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                    android:id="@+id/ivNext"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/ring"
+                    android:padding="3dp"
+                    android:rotation="90"
+                    android:src="@drawable/ic_scroll_up"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/ivScrollDown"
+                    app:layout_constraintStart_toEndOf="@+id/ivPrev"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                    android:id="@+id/ivScrollDown"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/ring"
+                    android:padding="3dp"
+                    android:rotation="180"
+                    android:src="@drawable/ic_scroll_up"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/ivNext"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                    style="@style/BoxStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.navigation.NavigationView

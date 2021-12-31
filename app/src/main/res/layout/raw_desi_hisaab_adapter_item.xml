@@ -133,7 +133,7 @@
                     app:layout_constraintStart_toEndOf="@id/viewLeft1"
                     app:layout_constraintTop_toTopOf="parent" />
 
-            <EditText
+            <com.dalakiya.infotech.desihisaab.uc.KeyBoardEditText
                     android:id="@+id/edQuantity"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
@@ -208,7 +208,7 @@
                     app:layout_constraintStart_toEndOf="@id/viewTop2"
                     app:layout_constraintTop_toTopOf="parent" />
 
-            <EditText
+            <com.dalakiya.infotech.desihisaab.uc.KeyBoardEditText
                     android:id="@+id/edPrice"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
