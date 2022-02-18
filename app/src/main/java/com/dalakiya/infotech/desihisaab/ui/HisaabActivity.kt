@@ -14,7 +14,6 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -111,7 +110,7 @@ class HisaabActivity : BaseActivity(), FinalTotal, NavigationView.OnNavigationIt
                 }
             }
         })
-        ivScrollUp.setOnClickListener {
+        /*ivScrollUp.setOnClickListener {
             rv.scrollToPosition(0)
             Handler(Looper.getMainLooper()).postDelayed({
                 val editText =
@@ -169,7 +168,7 @@ class HisaabActivity : BaseActivity(), FinalTotal, NavigationView.OnNavigationIt
                     imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT)
                 }
             }, 1000)
-        }
+        }*/
 
         ivPrev.setOnClickListener {
             if (canRun) {
@@ -198,6 +197,30 @@ class HisaabActivity : BaseActivity(), FinalTotal, NavigationView.OnNavigationIt
                         )
                     editText?.requestFocus()
                 } else if (priceFocused && pricePos != -1) {
+                    val editText =
+                        rv.findViewHolderForAdapterPosition(pricePos + 1)?.itemView?.findViewById<EditText>(
+                            R.id.edQuantity
+                        )
+                    editText?.requestFocus()
+                    ivNext.isEnabled = false
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        rv.scrollToPosition(pricePos + 1)
+                        ivNext.isEnabled = true
+                    }, 100)
+                }
+            }
+        }
+        ivMoveDown.setOnClickListener {
+            if (quantityPos != -1 || pricePos != -1) {
+                if (quantityPos != -1) {
+                    pricePos = -1
+                    val editText =
+                        rv.findViewHolderForAdapterPosition(quantityPos + 1)?.itemView?.findViewById<EditText>(
+                            R.id.edQuantity
+                        )
+                    editText?.requestFocus()
+                } else {
+                    quantityPos = -1
                     val editText =
                         rv.findViewHolderForAdapterPosition(pricePos + 1)?.itemView?.findViewById<EditText>(
                             R.id.edQuantity
@@ -235,16 +258,18 @@ class HisaabActivity : BaseActivity(), FinalTotal, NavigationView.OnNavigationIt
                 priceFocused = hasFocus
                 pricePos = pos
             }
-            if (quantityFocused) {
-                priceFocused = false
-            }
-            if (priceFocused) {
-                quantityFocused = false
-            }
 
             if (canRun) {
                 canRun = false
                 handlerNp.postDelayed(runnableNP, 50)
+                if (quantityFocused) {
+                    priceFocused = false
+                    pricePos = -1
+                }
+                if (priceFocused) {
+                    quantityFocused = false
+                    quantityPos = -1
+                }
             }
         }
     }
@@ -253,9 +278,12 @@ class HisaabActivity : BaseActivity(), FinalTotal, NavigationView.OnNavigationIt
 
     private val runnableNP = Runnable {
         if (quantityFocused) {
-            pricePos = -1
-        } else if (priceFocused) {
-            quantityPos = -1
+            priceFocused = false
+            quantityFocused = true
+        }
+        if (priceFocused) {
+            quantityFocused = false
+            priceFocused = true
         }
         canRun = true
     }

@@ -443,7 +443,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/clBottom">
 
             <ImageView
-                    android:id="@+id/ivScrollUp"
+                    android:id="@+id/ivMoveUp"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:background="@drawable/ring"
@@ -452,7 +452,8 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/ivPrev"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:contentDescription="Move up"/>
 
             <ImageView
                     android:id="@+id/ivPrev"
@@ -464,8 +465,9 @@
                     android:src="@drawable/ic_scroll_up"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/ivNext"
-                    app:layout_constraintStart_toEndOf="@+id/ivScrollUp"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintStart_toEndOf="@+id/ivMoveUp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:contentDescription="Previous"/>
 
             <ImageView
                     android:id="@+id/ivNext"
@@ -476,12 +478,13 @@
                     android:rotation="90"
                     android:src="@drawable/ic_scroll_up"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/ivScrollDown"
+                    app:layout_constraintEnd_toStartOf="@+id/ivMoveDown"
                     app:layout_constraintStart_toEndOf="@+id/ivPrev"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:contentDescription="Next"/>
 
             <ImageView
-                    android:id="@+id/ivScrollDown"
+                    android:id="@+id/ivMoveDown"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:background="@drawable/ring"
@@ -491,7 +494,8 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/ivNext"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:contentDescription="Move down"/>
 
             <View
                     style="@style/BoxStyle"
